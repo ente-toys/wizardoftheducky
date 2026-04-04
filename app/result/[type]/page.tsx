@@ -3,12 +3,12 @@ import ResultCard from "../../../components/ResultCard";
 import { results } from "../../../data/results";
 
 type Params = {
-  params: { type: string };
+  params: Promise<{ type: string }>;
 };
 
-export default function ResultPage({ params }: Params) {
-  const type = params.type.toLowerCase();
-  const result = results.find((item) => item.key === type);
+export default async function ResultPage({ params }: Params) {
+  const { type } = await params;
+  const result = results.find((item) => item.key === type.toLowerCase());
 
   if (!result) {
     notFound();

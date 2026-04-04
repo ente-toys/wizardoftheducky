@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Question } from "../data/questions";
+import { playClick } from "../lib/clickSound";
 
 type QuizStepProps = {
   question: Question;
@@ -10,9 +11,27 @@ type QuizStepProps = {
   progress: number;
 };
 
-// Vertical start position (% of image height) for each of the 4 option slots,
-// measured from question_1.png reference.
-const OPTION_TOPS = ["56.5%", "66%", "75.5%", "85%"];
+/*
+ * All positions derived from Figma specs (frame: 1920 × 1080 px)
+ * Card: left 1064px, top 81px, 606.74 × 919px
+ * Buttons inside card: left 106.06px (→ 1170.06px abs), width 394.62px, height 78.21px
+ * Button tops (card-relative): 437 | 538.21 | 639.42 | 740.64  → add card top 81
+ * Sorcerer Ducky: card-relative left 125.09px, top 841.85px, width 356.56px
+ */
+const BTN_LEFT   = "60.94%";  // 1170.06 / 1920
+const BTN_WIDTH  = "20.55%";  // 394.62 / 1920
+const BTN_HEIGHT = "7.24%";   // 78.21 / 1080
+
+const OPTION_TOPS = [
+  "47.96%",  // (81 + 437)    / 1080
+  "57.33%",  // (81 + 538.21) / 1080
+  "66.71%",  // (81 + 639.42) / 1080
+  "76.08%",  // (81 + 740.64) / 1080
+];
+
+const FOOTER_LEFT  = "61.93%";  // (1064 + 125.09) / 1920
+const FOOTER_WIDTH = "18.57%";  // 356.56 / 1920
+const FOOTER_TOP   = "85.45%";  // (81 + 841.85) / 1080
 
 export default function QuizStep({ question, onAnswer }: QuizStepProps) {
   return (
@@ -24,37 +43,72 @@ export default function QuizStep({ question, onAnswer }: QuizStepProps) {
       transition={{ duration: 0.3 }}
       className="flex h-screen w-full items-center justify-center bg-black"
     >
-      {/* Wrapper maintains the 16:9 aspect ratio of the Figma frame */}
+      {/* Container matches image exactly — max width by height, or max height by width */}
       <div
-        className="relative w-full"
-        style={{ aspectRatio: "16 / 9", maxHeight: "100vh" }}
+        className="relative"
+        style={{
+          aspectRatio: "1920 / 1080",
+          width: "min(100vw, calc(100vh * 1920 / 1080))",
+          height: "min(100vh, calc(100vw * 1080 / 1920))",
+        }}
       >
         <Image
           src={question.bg}
           alt={`Question ${question.id}`}
           fill
-          className="object-contain"
+          className="object-fill"
           priority
         />
 
         {question.answers.map((answer, idx) => (
-          <button
+          <motion.button
             key={idx}
-            onClick={() => onAnswer(idx)}
+            onClick={() => { playClick(); onAnswer(idx); }}
+            whileHover={{ scale: 1.03, boxShadow: "0 0 0.6vw #A88458" }}
+            whileTap={{ scale: 0.96, boxShadow: "0 0 0.3vw #462901", filter: "brightness(0.88)" }}
+            transition={{ type: "spring", stiffness: 400, damping: 20 }}
             style={{
               position: "absolute",
               top: OPTION_TOPS[idx],
-              left: "59%",
-              right: "4%",
-              height: "8%",
+              left: BTN_LEFT,
+              width: BTN_WIDTH,
+              height: BTN_HEIGHT,
+              background: "linear-gradient(273.35deg, #A88458 -13.8%, #FFEBD4 54.84%, #E0C8AA 92.96%)",
+              border: "max(1px, 0.154vw) solid #462901",
+              borderRadius: "0.833vw",
+              fontFamily: "var(--font-irish-grover)",
+              fontSize: "clamp(8px, 0.917vw, 18px)",
+              color: "#462901",
+              textAlign: "center",
+              lineHeight: "1.19",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "0 1%",
             }}
-            className="flex items-center px-3 text-left text-[clamp(9px,1vw,13px)] font-medium leading-tight
-                       text-amber-950 bg-amber-50/60 border border-amber-800/40 rounded-sm
-                       hover:bg-amber-100/80 transition-colors"
           >
             {answer.label}
-          </button>
+          </motion.button>
         ))}
+
+        {/* Sorcerer Ducky footer text */}
+        <p
+          style={{
+            position: "absolute",
+            top: FOOTER_TOP,
+            left: FOOTER_LEFT,
+            width: FOOTER_WIDTH,
+            fontFamily: "var(--font-irish-grover)",
+            fontSize: "clamp(10px, 1.894vw, 36px)",
+            lineHeight: "1.21",
+            textAlign: "center",
+            color: "#462901",
+            margin: 0,
+          }}
+        >
+          Wizard Ducky
+        </p>
       </div>
     </motion.div>
   );
