@@ -1,5 +1,5 @@
 const nextConfig: NextConfig = {
-  basePath: "/",
+  basePath: "/wizardoftheducky",
   images: {
     unoptimized: true,
   },
