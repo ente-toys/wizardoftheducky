@@ -97,6 +97,14 @@ export default function ResultCard({ result }: ResultCardProps) {
                   className="object-contain"
                   priority
                 />
+                {/* Clickable ente.com overlay on the card */}
+                <a
+                  href="https://ente.com/?utm_source=wizardoftheduckyworld"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="absolute cursor-pointer z-10"
+                  style={{ bottom: "0%", left: "10%", right: "10%", height: "10%" }}
+                />
               </div>
               <div className="flex gap-3 mt-2">
                 <motion.a
@@ -226,6 +234,13 @@ export default function ResultCard({ result }: ResultCardProps) {
                   fill
                   className="object-contain"
                 />
+                <a
+                  href="https://ente.com/?utm_source=wizardoftheduckyworld"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="absolute cursor-pointer z-10"
+                  style={{ bottom: "0%", left: "10%", right: "10%", height: "10%" }}
+                />
               </motion.div>
 
               {/* Right half: buttons stacked */}
@@ -280,7 +295,7 @@ export default function ResultCard({ result }: ResultCardProps) {
                   Share
                 </motion.button>
                 <motion.a
-                  href="https://ente.com"
+                  href="https://ente.com/?utm_source=wizardoftheduckyworld"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => playClick()}

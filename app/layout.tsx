@@ -40,7 +40,7 @@ export default function RootLayout({
         <RotateOverlay />
         {children}
         <a
-          href="https://ente.com/?utm_source=wizardofduckyworld"
+          href="https://ente.com/?utm_source=wizardoftheduckyworld"
           target="_blank"
           rel="noopener noreferrer"
           className="fixed bottom-2 right-2 z-40 tracking-wide no-underline opacity-50 hover:opacity-90 transition-opacity px-2 py-1"
