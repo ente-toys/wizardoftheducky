@@ -21,19 +21,15 @@ export default function ResultCard({ result }: ResultCardProps) {
 
   const onShare = async () => {
     playClick();
-    const shareData = {
-      title: `I got: ${result.title}`,
-      text: `${result.tagline}\n\n${result.enteNote}`,
-      url: `${window.location.origin}/result/${result.key}`,
-    };
+    const shareText = `I got '${result.title}'. Check out yours, visiting the world of the Ducky Wizard.\n\nwww.wizardoftheduckyworld.com\n\nPowered by Ente – https://ente.com/?utm_source=wizardoftheduckyworld`;
 
     if (navigator.share) {
-      await navigator.share(shareData).catch(() => {});
+      await navigator.share({ text: shareText }).catch(() => {});
       return;
     }
 
-    await navigator.clipboard.writeText(`${shareData.title}\n${shareData.url}`);
-    alert("Result URL copied to clipboard.");
+    await navigator.clipboard.writeText(shareText);
+    alert("Copied to clipboard!");
   };
 
   // After 4s play i2.mp3, when it ends cross-dissolve to j.png
