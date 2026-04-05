@@ -66,20 +66,27 @@ export default function QuizStep({ question, onAnswer }: QuizStepProps) {
         {/* Scroll of Truth - i icon */}
         <motion.button
           onClick={() => { playClick(); setShowFact(!showFact); }}
-          whileHover={{ scale: 1.15, boxShadow: "0 0 12px #A88458" }}
+          animate={{
+            boxShadow: [
+              "0 0 4px #A88458, 0 0 8px rgba(168,132,88,0.4)",
+              "0 0 10px #FFEBD4, 0 0 20px rgba(168,132,88,0.6)",
+              "0 0 4px #A88458, 0 0 8px rgba(168,132,88,0.4)",
+            ],
+          }}
+          transition={{
+            boxShadow: { duration: 2, repeat: Infinity, ease: "easeInOut" },
+          }}
+          whileHover={{ scale: 1.15, boxShadow: "0 0 16px #FFEBD4, 0 0 30px rgba(168,132,88,0.8)" }}
           whileTap={{ scale: 0.9 }}
-          transition={{ type: "spring", stiffness: 400, damping: 20 }}
+          className="scroll-truth-icon"
           style={{
             position: "absolute",
-            bottom: "3%",
-            left: "3%",
-            width: "clamp(28px, 2.5vw, 44px)",
-            height: "clamp(28px, 2.5vw, 44px)",
+            top: "2%",
+            left: "2%",
             borderRadius: "50%",
             background: "linear-gradient(273.35deg, #A88458 -13.8%, #FFEBD4 54.84%, #E0C8AA 92.96%)",
             border: "max(1px, 0.1vw) solid #462901",
             fontFamily: "var(--font-irish-grover)",
-            fontSize: "clamp(14px, 1.3vw, 22px)",
             color: "#462901",
             cursor: "pointer",
             display: "flex",
@@ -100,29 +107,27 @@ export default function QuizStep({ question, onAnswer }: QuizStepProps) {
               exit={{ opacity: 0, y: 10 }}
               transition={{ duration: 0.25 }}
               onClick={() => setShowFact(false)}
+              className="scroll-truth-fact"
               style={{
                 position: "absolute",
-                bottom: "8%",
-                left: "3%",
-                maxWidth: "40%",
+                top: "7%",
+                left: "2%",
                 background: "rgba(0, 0, 0, 0.85)",
                 border: "max(1px, 0.1vw) solid #A88458",
-                borderRadius: "0.6vw",
-                padding: "clamp(8px, 1vw, 16px) clamp(12px, 1.2vw, 20px)",
                 zIndex: 30,
                 cursor: "pointer",
               }}
             >
               <p
+                className="scroll-truth-fact-text"
                 style={{
                   fontFamily: "var(--font-irish-grover)",
-                  fontSize: "clamp(9px, 0.8vw, 14px)",
                   color: "#FFEBD4",
                   lineHeight: "1.5",
                   margin: 0,
                 }}
               >
-                <span style={{ color: "#A88458", fontSize: "clamp(10px, 0.9vw, 16px)" }}>Scroll of Truth</span>
+                <span className="scroll-truth-fact-title" style={{ color: "#A88458" }}>Scroll of Truth</span>
                 <br />
                 {question.fact}
               </p>
