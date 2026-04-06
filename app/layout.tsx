@@ -1,22 +1,17 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Irish_Grover } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import BackgroundMusic from "../components/BackgroundMusic";
 import RotateOverlay from "../components/RotateOverlay";
 
-const geistSans = Geist({
+const geistSans = localFont({
+  src: "./fonts/geist-latin-variable.woff2",
   variable: "--font-geist-sans",
-  subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const irishGrover = Irish_Grover({
+const irishGrover = localFont({
+  src: "./fonts/irish-grover-latin-400.woff2",
   variable: "--font-irish-grover",
-  subsets: ["latin"],
   weight: "400",
 });
 
@@ -33,7 +28,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${irishGrover.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${irishGrover.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col relative">
         <BackgroundMusic />
