@@ -29,10 +29,15 @@ export default function BackgroundMusic() {
   };
 
   useEffect(() => {
-    const audio = new Audio("/music.mp3");
-    audio.loop = true;
+    const audio = new Audio("/bgm.mp3");
+    audio.loop = false;
     audio.volume = 0;
     audioRef.current = audio;
+
+    audio.addEventListener("ended", () => {
+      audio.currentTime = START_TIME;
+      audio.play().catch(() => {});
+    });
 
     // Try autoplay immediately
     audio.currentTime = START_TIME;
